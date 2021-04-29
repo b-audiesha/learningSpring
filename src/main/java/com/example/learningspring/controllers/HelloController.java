@@ -18,6 +18,16 @@ class HelloController {
     return "hello";
   }
 
+  @GetMapping("/join")
+  public String showJoinForm() {
+    return "join";
+  }
+
+  @PostMapping("/join")
+  public String joinCohort(@RequestParam(name = "cohort") String cohort, Model model) {
+    model.addAttribute("cohort", "Welcome to " + cohort + "!");
+    return "join";
+  }
 //request mapping and get mapping do the same thing.
 //Notice in the above example we also used the @RequestMapping annotation, which is just the longer version of @GetMapping. There, of course, also exists a @PostMapping annotation that tells the controller to respond to POST requests.
 
