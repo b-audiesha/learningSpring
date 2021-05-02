@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<nav th:replace="partials :: head"></nav>
+<nav th:replace="partials :: head"/>
 <body>
 
-<nav th:replace="partials :: navbar"></nav>
+<nav th:replace="partials :: navbar"/>
+<nav th:replace="partials :: header"/>
 
-<nav th:replace="partials :: header"></nav>
+<a th:href="@{roll-dice/1}" class="btn btn-danger">Side-1</a>
+<a th:href="@{roll-dice/2}" class="btn btn-danger">Side-2</a>
+<a th:href="@{roll-dice/3}" class="btn btn-danger">Side-3</a>
+<a th:href="@{roll-dice/4}" class="btn btn-danger">Side-4</a>
+<a th:href="@{roll-dice/5}" class="btn btn-danger">Side-5</a>
+<a th:href="@{/roll-dice/6}" class="btn btn-danger">Side-6</a>
 
-<h3 style="text-align: center">Select a number between 1 & 6</h3>
-
-<div style="text-align: center">
-</div>
-<br>
-<table style="margin-left: auto; margin-right: auto; text-align: center;">
-
-</table>
-<div th:replace="partials :: footer"></div>
+<div th:replace="partials/footer partials : footer>"
 </body>
 </html>
