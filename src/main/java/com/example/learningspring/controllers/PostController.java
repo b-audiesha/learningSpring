@@ -1,30 +1,32 @@
 package com.example.learningspring.controllers;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 public class PostController {
-  @RequestMapping(path = "/post", method = RequestMethod.GET)
+
+  @GetMapping("/posts")
   @ResponseBody
-  public String index() {
-    return "index page";
+  public String postsIndex() {
+    return "posts index page";
   }
-    @RequestMapping(path = "/post/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public String PostID() {
-      return "view an individual post\n";
-    }
-  @RequestMapping(path = "/posts/create", method = RequestMethod.GET)
+
+  @GetMapping("/posts/{id}")
   @ResponseBody
-  public String create() {
-    return "creation form here";
+  public String postView() {
+    return "view an individual post";
   }
-  @RequestMapping(path = "/posts/create", method = RequestMethod.POST)
+
+  @GetMapping("/posts/create")
   @ResponseBody
-  public String post() {
-    return "creation form here";
+  public String postForm() {
+    return "view the form for creating a post";
+  }
+
+  @PostMapping("/posts/create")
+  @ResponseBody
+  public String createPost() {
+    return "creating a new post";
   }
 }
-
