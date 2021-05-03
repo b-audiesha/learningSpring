@@ -1,30 +1,39 @@
 package com.example.learningspring.controllers;
+import com.example.learningspring.models.Post;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class PostController {
 
   @GetMapping("/posts")
-  @ResponseBody
-  public String index() {
-    return "posts index page";
+  public String index(Model vModel) {
+    List<Post> posts = new ArrayList<>(Arrays.asList(
+      new Post("Here is a post", "Blah blah blah."),
+      new Post("Here is a post", "Blah blah blah."),
+      new Post("Here is a post", "Blah blah blah.")
+    ));
+      vModel.addAttribute("post, post");
+    return "post/index";
   }
 
   @GetMapping("/posts/{id}")
-  @ResponseBody
   public String view() {
-    return "view an individual post";
+    return "/posts/show";
   }
 
   @GetMapping("/posts/create")
-  @ResponseBody
   public String create() {
-    return "view the form for creating a post";
+    return "/posts/create";
   }
 
   @PostMapping("/posts/create")
-  @ResponseBody
+
   public String newPost() {
     return "creating a new post";
   }
