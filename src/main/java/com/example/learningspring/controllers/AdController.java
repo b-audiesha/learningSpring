@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-
+// look up more on dependency injection
 @Controller
 public class AdController {
-
-  // Constructor dependency injection
-  private final AdRepo adsDao;
-
+//refactor with GetPostMapping or Request Mapping
+  // Constructor dependency injection (instance of repo to have access to methods within this controller
+  private final AdRepo adsDao; //look up the uses of FINAL.
+//doesnt have to be adsDao but its basically equal to DAO in JAVA && SQL. It is how you access and make changes to the database.
   public AdController(AdRepo adsDao) {
     this.adsDao = adsDao;
   }
@@ -24,21 +24,19 @@ public class AdController {
   public List<Ad> getAllAds() {
     return adsDao.findAll();
   }
-
-    /*
-    How do we delete? Edit? Insert? Show a specific record?
-     */
+// this will give JSON formatted list of all of your adds printed.  You dont want to do that.
 
   @GetMapping("/ads/{id}")
-  public String getOneAd(@PathVariable long id, Model vModel) {
+  public String getOneAd(@PathVariable long id, Model vModel) { //passed model object a parameter
     // get ad from dao then put in vModel
-    Ad ad = adsDao.getOne(id);
+    Ad ad = adsDao.getOne(id); //got ad by ID and passed into a method
+    //review this and then retry roll dice exercise.
     vModel.addAttribute("ad", ad);
     return "ads/show";
   }
-
+// Model is not needed it can be called anything
   @GetMapping("/ads/delete")
-  public String deleteAd() {
+  public String deleteAd( ) { //make sure that delete button has correct form action for delete.
     // delete ad
     adsDao.deleteById(4L);
     return "redirect:/ads"; // redirect to "/ads"
