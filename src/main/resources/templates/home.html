@@ -3,16 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Home</title>
-  <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
-        rel="stylesheet">
+
 <body class="d-flex flex-column min-vh-100">//this ensures the page is viewable and takes up the entire screen view.
-
+<h1>Home Page</h1>
 <nav th:replace="partials/navbar :: navbar"></nav> // this is based on a file called navbar in a partial folder. This will be on every page if this is linked on every page.
-
-
 <header th:replace ="partials/header:header"></header>
 <footer th:replace="partials/footer :: footer"></footer>  // this is based on a file called navbar in a partial folder. This will be on every page if this is linked on every page.
-
+<th:block th:replace="partials/scripts :: scripts" />
 <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </body>

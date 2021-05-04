@@ -14,27 +14,31 @@ public class PostController {
   @GetMapping("/posts")
   public String index(Model vModel) {
     List<Post> posts = new ArrayList<>(Arrays.asList(
-      new Post("Here is a post", "Blah blah blah."),
-      new Post("Here is a post", "Blah blah blah."),
-      new Post("Here is a post", "Blah blah blah.")
+      new Post("Here is a post", "Blah blah blah"),
+      new Post("Here is a post", "Blah blah blah"),
+      new Post("Here is a post", "Blah blah blah")
     ));
-      vModel.addAttribute("post, post");
-    return "post/index";
+      vModel.addAttribute("posts", posts);
+    return "posts/index";
   }
 
   @GetMapping("/posts/{id}")
-  public String view() {
-    return "/posts/show";
+  public String show(@PathVariable long id, Model vModel) {
+    Post post = new Post("Test Title", "Test Body");
+    vModel.addAttribute("id", id);
+    vModel.addAttribute("post", post);
+    return "posts/show";
   }
 
   @GetMapping("/posts/create")
+  @ResponseBody
   public String create() {
-    return "/posts/create";
+    return "Create a New Post";
   }
-
   @PostMapping("/posts/create")
-
-  public String newPost() {
-    return "creating a new post";
+  @ResponseBody
+  public String insert() {
+    return "Insert a new post";
   }
+
 }
