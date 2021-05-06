@@ -26,3 +26,5 @@ public class Post {
     this.body = body;
   }
 }
+
+//implement edit and delete functionality on this controller.
