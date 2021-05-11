@@ -1,44 +1,74 @@
 package com.example.learningspring.controllers;
+
 import com.example.learningspring.models.Post;
+import com.example.learningspring.repositories.PostRepo;
+import com.example.learningspring.repositories.UserRepo;
+import org.apache.tomcat.jni.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class PostController {
 
+  private final PostRepo postsDao;
+  private final UserRepo usersDao;
+  private final EmailSvc emailSvc;
+
+  public PostController(PostRepo postsDao, UserRepo usersDao, EmailSvc emailSvc) {
+    this.postsDao = postsDao;
+    this.usersDao = usersDao;
+    this.emailSvc = emailSvc;
+  }
+
   @GetMapping("/posts")
   public String index(Model vModel) {
-    List<Post> posts = new ArrayList<>(Arrays.asList(
-      new Post("Here is a post", "Blah blah blah"),
-      new Post("Here is a post", "Blah blah blah"),
-      new Post("Here is a post", "Blah blah blah")
-    ));
-      vModel.addAttribute("posts", posts);
+    vModel.addAttribute("posts", postsDao.findAll());
     return "posts/index";
   }
 
   @GetMapping("/posts/{id}")
   public String show(@PathVariable long id, Model vModel) {
-    Post post = new Post("Test Title", "Test Body");
-    vModel.addAttribute("id", id);
-    vModel.addAttribute("post", post);
+    vModel.addAttribute("post", postsDao.getOne(id));
     return "posts/show";
   }
 
-  @GetMapping("/posts/create")
-  @ResponseBody
-  public String create() {
-    return "Create a New Post";
+  @GetMapping("/posts/{id}/edit")
+  public String edit(@PathVariable long id, Model vModel) {
+    Post postToEdit = postsDao.getOne(id);
+    vModel.addAttribute("post", postToEdit);
+    return "posts/edit";
   }
+
+  @PostMapping("/posts/{id}/edit")
+  public String update(@ModelAttribute Post post) {
+    postsDao.save(post);
+    return "redirect:/posts";
+  }
+
+  @PostMapping("/posts/{id}/delete")
+  public String delete(@PathVariable long id) {
+    postsDao.deleteById(id);
+    return "redirect:/posts";
+  }
+
+  @GetMapping("/posts/create")
+  public String create(Model vModel) {
+    vModel.addAttribute("post", new Post());
+    return "posts/create";
+  }
+
   @PostMapping("/posts/create")
-  @ResponseBody
-  public String insert() {
-    return "Insert a new post";
+  public String insert(@ModelAttribute Post post) {
+    User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    User author = usersDao.getOne(principal.getId());
+    post.setUser(author);
+    Post savedPost = postsDao.save(post);
+    emailSvc.prepareAndSend(post, "Post Created!", "You have just created a post!");
+    return "redirect:/posts/" + savedPost.getId();
   }
 
 }
