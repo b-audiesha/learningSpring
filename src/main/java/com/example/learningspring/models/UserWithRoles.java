@@ -11,6 +11,10 @@ public class UserWithRoles extends User implements UserDetails {
     super(user);  // Call the copy constructor defined in User
   }
 
+  public UserWithRoles(org.springframework.security.core.userdetails.User user) {
+
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     String roles = ""; // Since we're not using the authorization part of the component

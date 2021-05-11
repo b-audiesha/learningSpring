@@ -1,7 +1,7 @@
 package com.example.learningspring.controllers;
 
 
-import com.codeup.lunablog.repositories.UserRepo;
+import com.example.learningspring.repositories.UserRepo;
 import org.apache.tomcat.jni.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
